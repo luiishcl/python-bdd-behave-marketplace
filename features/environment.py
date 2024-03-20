@@ -1,15 +1,18 @@
-# CONTAINS: Browser fixture setup and teardown
-from behave import fixture, use_fixture
-from selenium.webdriver import Firefox
-
-@fixture
-def browser_firefox(context):
-    # -- BEHAVE-FIXTURE: Similar to @contextlib.contextmanager
-    context.browser = Firefox()
-    yield context.browser
-    # -- CLEANUP-FIXTURE PART:
-    context.browser.quit()
+from selenium.webdriver import Firefox, Chrome
+from ipdb import post_mortem
 
 def before_all(context):
-    use_fixture(browser_firefox, context)
-    # -- NOTE: CLEANUP-FIXTURE is called after after_all() hook.
+    browser =  context.config.userdata.get('browser')
+
+    browsers = {
+        'chrome': Chrome,
+        'firefox': Firefox
+    }
+    context.browser = browsers[browser]()
+
+def after_all(context):
+    context.browser.quit()
+
+def after_step(context, step):
+    if step.status == 'failed':
+       post_mortem(step.exc_traceback)
