@@ -9,7 +9,11 @@ Feature: Test BEES Home Web Page
 
   Scenario: Access Homepage
     Given the TestBees home page is displayed
-    When the user provide email "luishcl@outlook.com"
-    And the user provide password "1Bees-pass2"
-    And Click on Submit
+    When do login 
+      """
+        { 
+          "email": "luishcl@outlook.com",
+          "password": "1Bees-pass2"
+        }
+      """
     Then should present the homepage "Welcome to your storage"
