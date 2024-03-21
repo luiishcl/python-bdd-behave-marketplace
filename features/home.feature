@@ -8,7 +8,7 @@ Feature: Test BEES Home Web Page
   # The lines immediately after the feature title are just comments
 
   Scenario: Access Homepage
-    Given the TestBees home page is displayed
+    Given the "Login" is displayed
     When do login 
       """
         { 

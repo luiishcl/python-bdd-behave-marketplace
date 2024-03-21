@@ -1,5 +1,6 @@
 from selenium.webdriver import Firefox, Chrome, Edge
 from ipdb import post_mortem
+from selenium.webdriver.support.ui import WebDriverWait
 
 def before_all(context):
     browser =  context.config.userdata.get('browser')
@@ -11,9 +12,14 @@ def before_all(context):
     }
     context.browser = browsers[browser]()
 
-def after_all(context):
-    context.browser.quit()
+def before_scenario(context, scenario):
+    context.browser.implicitly_wait(10)
+    
 
 def after_step(context, step):
-    if step.status == 'failed':
+    if context.config.userdata.getbool("debug") and step.status == 'failed':
        post_mortem(step.exc_traceback)
+    
+
+def after_scenario(context, scenario):
+    context.browser.quit()
