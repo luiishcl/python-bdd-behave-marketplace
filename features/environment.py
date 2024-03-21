@@ -1,4 +1,4 @@
-from selenium.webdriver import Firefox, Chrome
+from selenium.webdriver import Firefox, Chrome, Edge
 from ipdb import post_mortem
 
 def before_all(context):
@@ -6,7 +6,8 @@ def before_all(context):
 
     browsers = {
         'chrome': Chrome,
-        'firefox': Firefox
+        'firefox': Firefox,
+        'edge': Edge
     }
     context.browser = browsers[browser]()
 

@@ -16,4 +16,4 @@ Feature: Test BEES Home Web Page
           "password": "1Bees-pass2"
         }
       """
-    Then should present the homepage "Welcome to your storage"
+    Then should present "Welcome to your storage"
