@@ -20,6 +20,7 @@ def after_step(context, step):
     if context.config.userdata.getbool("debug") and step.status == 'failed':
        post_mortem(step.exc_traceback)
     
+    print()
 
 #def after_scenario(context, scenario):
     #context.browser.quit()

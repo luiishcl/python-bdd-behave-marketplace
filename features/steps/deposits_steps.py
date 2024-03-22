@@ -1,7 +1,10 @@
+from selenium import webdriver
 from behave import given, when, then
 from selenium.webdriver.common.by import By
 from json import loads
-import urllib.parse
+from urllib.parse import unquote, urlparse
+from pathlib import PurePosixPath
+
 
 
 DEPOSIT_URL = "https://test-bees.herokuapp.com/deposits"
@@ -43,12 +46,18 @@ def create_deposit(context):
     assert successful_msg_deposit_created in SUCCESSFUL_MSG_DEFAULT
     print(successful_msg_deposit_created)
 
+    # Capture path from actual URL to use on deposits manager
+    url_parseada = urlparse(context.browser.current_url).path
+    print(url_parseada)
+
+    # TDB
+    # Automate Edition Deposit
+    # Automate Destroy Deposit
+
 
 @then('should present in the list of Deposits')
 def check_deposit(context):
-    back_to_deposit_link = context.browser.find_element(By.LINK_TEXT, 'Back to deposits')
-    back_to_deposit_link.click()
-    # TODO GET URL path
-    # TODO check the item on the table to show
-    
-
+    pass
+    # WIP
+    # back_to_deposit_link = context.browser.find_element(By.LINK_TEXT, 'Back to deposits')
+    # back_to_deposit_link.click()
