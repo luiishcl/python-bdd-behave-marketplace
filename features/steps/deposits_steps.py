@@ -1,14 +1,15 @@
 from selenium import webdriver
-from behave import given, when, then
+from behave import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from json import loads
-from urllib.parse import urlparse
-
+# from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 
 
 DEPOSIT_URL = "https://test-bees.herokuapp.com/deposits"
 SUCCESSFUL_MSG_DEFAULT = 'Deposit was successfully created.'
+DEPOSIT_ID = "deposits/189"
 
 @given('stay on "{deposit_page}" session')
 def go_to_page(context, deposit_page):
@@ -16,6 +17,18 @@ def go_to_page(context, deposit_page):
     title = context.browser.find_element(By.TAG_NAME, 'h1').text
     assert title in deposit_page
 
+
+@given('stay "{deposit_edit}" session')
+def step_impl(context, deposit_edit):
+    base_url_deposit = DEPOSIT_URL
+    relative_path_deposit = DEPOSIT_ID
+    final_url = urljoin(base_url_deposit, relative_path_deposit)
+    print(final_url)  # Output: 
+    context.browser.get(final_url)
+
+    link_check_dp = context.browser.find_element(By.LINK_TEXT, 'Edit this deposit').text
+    assert link_check_dp in deposit_edit
+    
 
 @when('create a new deposit')
 def create_deposit(context):
@@ -57,3 +70,14 @@ def verify_deposit(context):
     
     back_to_deposit_link = context.browser.find_element(By.LINK_TEXT, 'Back to deposits')
     back_to_deposit_link.click()
+
+
+@when(u'edit a deposit')
+def step_impl(context):
+    ...
+
+
+
+@then(u'the deposits were edited successful')
+def step_impl(context):
+    ...
