@@ -15,4 +15,4 @@ Feature: Register on Deposit
                 "zipcode": "13044900"
             }
         """
-    Then should present in the list of Deposits
+    Then the deposits were created successful

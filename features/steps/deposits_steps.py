@@ -1,13 +1,14 @@
 from selenium import webdriver
 from behave import given, when, then
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from json import loads
-from urllib.parse import unquote, urlparse
-from pathlib import PurePosixPath
+from urllib.parse import urlparse
 
 
 
 DEPOSIT_URL = "https://test-bees.herokuapp.com/deposits"
+SUCCESSFUL_MSG_DEFAULT = 'Deposit was successfully created.'
 
 @given('stay on "{deposit_page}" session')
 def go_to_page(context, deposit_page):
@@ -18,12 +19,12 @@ def go_to_page(context, deposit_page):
 
 @when('create a new deposit')
 def create_deposit(context):
-    SUCCESSFUL_MSG_DEFAULT = 'Deposit was successfully created.'
-    info_deposits = loads(context.text)
-
+    
+    context.browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
     create_new_deposit_link = context.browser.find_element(By.LINK_TEXT, 'New deposit')
     create_new_deposit_link.click()
-    
+
+    info_deposits = loads(context.text)
     deposit_imput_name = context.browser.find_element(By.ID, 'deposit_name')
     deposit_imput_name.send_keys(info_deposits['name'])
 
@@ -42,6 +43,10 @@ def create_deposit(context):
     create_deposit_button = context.browser.find_element(By.CLASS_NAME, 'btn-primary')
     create_deposit_button.click()
 
+
+@then('the deposits were created successful')
+def verify_deposit(context):
+    
     successful_msg_deposit_created = context.browser.find_element(By.TAG_NAME, 'p').text
     assert successful_msg_deposit_created in SUCCESSFUL_MSG_DEFAULT
     print(successful_msg_deposit_created)
@@ -49,15 +54,6 @@ def create_deposit(context):
     # Capture path from actual URL to use on deposits manager
     url_parseada = urlparse(context.browser.current_url).path
     print(url_parseada)
-
-    # TDB
-    # Automate Edition Deposit
-    # Automate Destroy Deposit
-
-
-@then('should present in the list of Deposits')
-def check_deposit(context):
-    pass
-    # WIP
-    # back_to_deposit_link = context.browser.find_element(By.LINK_TEXT, 'Back to deposits')
-    # back_to_deposit_link.click()
+    
+    back_to_deposit_link = context.browser.find_element(By.LINK_TEXT, 'Back to deposits')
+    back_to_deposit_link.click()
