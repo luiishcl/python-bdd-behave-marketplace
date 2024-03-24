@@ -22,5 +22,5 @@ def after_step(context, step):
     
     print()
 
-#def after_scenario(context, scenario):
-    #context.browser.quit()
+def after_scenario(context, scenario):
+    context.browser.quit()
