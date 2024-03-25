@@ -21,7 +21,7 @@ Feature: Register on Deposit
 
     @wip
     Scenario: Edit a Deposit
-        Given stay "Edit this deposit" session
+        Given stay "Editing deposit" session
         When edit a deposit
         """
             {
